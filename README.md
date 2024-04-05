@@ -5,6 +5,20 @@ In this case study, I examine historical data from a fictional Chicago based bik
 
 Below, you'll find further details on the case study scenario and my full report.
 
+
+<details>
+  <summary>Click to show full analysis</summary>
+bla bla bla
+
+<details>
+  <summary>Test show sql query</summary>
+```tsql
+-- bla bla bla
+```
+</details>
+
+</details>
+
 ### Scenario
 As a junior data analyst at Cyclistic, a bike-share company in Chicago, my task is to maximise annual memberships by understanding the differences in bike usage between casual riders and annual members. My team aims to design a new marketing strategy backed by compelling data insights and professional visualisations. 
 					
