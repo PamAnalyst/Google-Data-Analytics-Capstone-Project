@@ -502,6 +502,7 @@ JOIN
 ```
 </details>
 
+
 **Insight**
 ![trip count by rideable type](Images/08_rideable_type_trip_count.jpeg)
 
@@ -519,6 +520,7 @@ GROUP BY usertype, rideable_type
 ORDER BY total_trips DESC;
 ```
 </details>
+
 
 **Insight**
 ![average trip duration](Images/09_avg_trip_duration.jpeg)
