@@ -5,20 +5,6 @@ In this case study, I examine historical data from a fictional Chicago based bik
 
 Below, you'll find further details on the case study scenario and my full report.
 
-
-<details>
-  <summary>Click to show full analysis</summary>
-bla bla bla
-
-<details>
-  <summary>Test show sql query</summary>
-```tsql
--- bla bla bla
-```
-</details>
-
-</details>
-
 ### Scenario
 As a junior data analyst at Cyclistic, a bike-share company in Chicago, my task is to maximise annual memberships by understanding the differences in bike usage between casual riders and annual members. My team aims to design a new marketing strategy backed by compelling data insights and professional visualisations. 
 					
@@ -56,12 +42,13 @@ Steps followed for data cleaning:
 + Checked if the end date was later than the start date. 
 
 Measures taken to fix errors and prepare the database for analysis:
-+ Renamed columns for clarity.
++ Renamed column "member_casual" to "usertype" for clarity.
 + Created new columns to facilitate analysis: trip_duration_hour, trip_duration_min, trip_duration_sec, trip_hour, trip_time_of_day, trip_day, trip_weekday, trip_weekday_name, trip_month, trip_month_name, trip_season.
 + Deleted rows with trips that lasted less than 1 minute.
++ Fixed blanks in columns: start_station_name, start_station_id, end_station_name and end_station_id, with the text "unknown". 
 
 <details>
-  <summary>Click to show queries used for data cleaning</summary>
+  <summary>Click to show queries used for data cleaning.</summary>
 
 ```tsql
 -- DATA CLEANING & MANIPULATION
@@ -266,288 +253,24 @@ WHERE ended_at <= started_at;
 ### Analysis
 Data analysis was carried out in MySQL and several calculations have been performed in order to analyse data and determine the following: 
 + Count of trips per usertype in 2023, monthly, weekly, daily, hourly.
-+ Busiest times for each usertype
-+ Count of trips per bycicle type
-+ Average trip duration per usertype
-+ Count of stations used to start trips
-+ 100 most popular stations to start trips per usertype
++ Busiest times for each usertype.
++ Count of trips per bicycle type.
++ Average trip duration per usertype.
++ Count of stations used to start trips.
++ 100 most popular stations to start trips per usertype.
   
 <details>
-  <summary>Click to show queries used for analysis</summary>
+  <summary>Click to show full analysis.</summary>
 
+<details>
+<summary>Show SQL query</summary>
 ```tsql
-
--- DATA ANALYSIS
--- Calculating the total number of trips in 2023 per usertype
-SELECT
-   total_trips,
-   total_member_trips,
-   total_casual_trips,
-   ROUND(total_member_trips/total_trips,2)*100 AS member_percentage,
-   ROUND(total_casual_trips/total_trips,2)*100 AS casual_percentage
-FROM
-   (
-   SELECT
-       COUNT(ID) AS total_trips,
-       SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
-       SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-   FROM case_study_v2.`2023-cyclistic-tripdata`) AS trip_count_per_usertype;
-
-
--- Calculating the total number of trips per usertype per month
-SELECT
-   usertype,
-   trip_month_name,
-   trip_season,
-   COUNT(ID) AS total_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype, trip_month_name, trip_season
-ORDER BY total_trips DESC;
-
-
--- Calculating the total number of trips per usertype per weekday
-SELECT
-   usertype,
-   trip_weekday_name,
-   COUNT(ID) AS total_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype, trip_weekday_name
-ORDER BY total_trips DESC;
-
-
--- Calculating the total number of trips per usertype per day of the month
-SELECT
-   usertype,
-   trip_day,
-   COUNT(ID) AS total_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype, trip_day
-ORDER BY total_trips DESC;
-
-
--- Calculating the total number of trips per usertype per time of day
-SELECT
-   usertype,
-   trip_time_of_day,
-   COUNT(ID) AS total_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype, trip_time_of_day
-ORDER BY total_trips DESC;
-
-
--- Calculating the total number of trips per usertype per hour
-SELECT
-   usertype,
-   trip_weekday_name,
-   trip_hour,
-   COUNT(ID) AS total_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype, trip_weekday_name, trip_hour
-ORDER BY total_trips DESC;
-
-
--- Calculating the busiest times for Members
-SELECT
-   busiest_month.trip_month_name AS busiest_month,
-   busiest_day.trip_weekday_name AS busiest_day,
-   busiest_time.trip_time_of_day AS busiest_time
-FROM
-   (SELECT
-       trip_month_name,
-       COUNT(*) AS total_trips
-   FROM
-       case_study_v2.`2023-cyclistic-tripdata`
-   WHERE usertype = "member"
-   GROUP BY
-       trip_month_name
-   ORDER BY
-       total_trips DESC
-   LIMIT 1) AS busiest_month
-  
-JOIN
-   (SELECT
-       trip_weekday_name,
-       COUNT(*) AS total_trips
-   FROM
-       case_study_v2.`2023-cyclistic-tripdata`
-   WHERE usertype = "member"
-   GROUP BY
-       trip_weekday_name
-   ORDER BY
-       total_trips DESC
-   LIMIT 1) AS busiest_day
-
-
-JOIN
-   (SELECT
-       trip_time_of_day,
-       COUNT(*) AS total_trips
-   FROM
-       case_study_v2.`2023-cyclistic-tripdata`
-   WHERE usertype = "member"
-   GROUP BY
-       trip_time_of_day
-   ORDER BY
-       total_trips DESC
-   LIMIT 1) AS busiest_time;
-
-
--- Calculating the busiest times for Casuals
-SELECT
-   busiest_month.trip_month_name AS busiest_month,
-   busiest_day.trip_weekday_name AS busiest_day,
-   busiest_time.trip_time_of_day AS busiest_time
-FROM
-   (SELECT
-       trip_month_name,
-       COUNT(*) AS total_trips
-   FROM
-       case_study_v2.`2023-cyclistic-tripdata`
-   WHERE usertype = "casual"
-   GROUP BY
-       trip_month_name
-   ORDER BY
-       total_trips DESC
-   LIMIT 1) AS busiest_month
-  
-JOIN
-   (SELECT
-       trip_weekday_name,
-       COUNT(*) AS total_trips
-   FROM
-       case_study_v2.`2023-cyclistic-tripdata`
-   WHERE usertype = "casual"
-   GROUP BY
-       trip_weekday_name
-   ORDER BY
-       total_trips DESC
-   LIMIT 1) AS busiest_day
-
-
-JOIN
-   (SELECT
-       trip_time_of_day,
-       COUNT(*) AS total_trips
-   FROM
-       case_study_v2.`2023-cyclistic-tripdata`
-   WHERE usertype = "casual"
-   GROUP BY
-       trip_time_of_day
-   ORDER BY
-       total_trips DESC
-   LIMIT 1) AS busiest_time;
-
-
--- Calculating the total number of trips per usertype per type of bike
-SELECT
-   usertype,
-   rideable_type,
-   COUNT(ID) AS total_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype, rideable_type;
-
-
--- Calculating the average trip duration in 2023
-SELECT
-   (SELECT
-   ROUND(AVG(trip_duration_min))
-   FROM case_study_v2.`2023-cyclistic-tripdata`) AS avg_overall_trip_duration_min,
-   (SELECT
-   ROUND(AVG(trip_duration_min))
-   FROM case_study_v2.`2023-cyclistic-tripdata`
-   WHERE usertype = "member") AS avg_member_trip_duration_min,
-   (SELECT
-   ROUND(AVG(trip_duration_min))
-   FROM case_study_v2.`2023-cyclistic-tripdata`
-   WHERE usertype = "casual") AS avg_casual_trip_duration_min;
-
-
--- Checking if the difference between user types is due to trip peaks in particular months
-SELECT
-   usertype,
-   trip_month_name,
-   ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype, trip_month_name
-ORDER BY avg_trip_duration_min DESC;
-
-
--- Checking if the difference between user types is due to trip peaks in particular days of the week
-SELECT
-   usertype,
-   trip_weekday_name,
-   ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype, trip_weekday_name
-ORDER BY avg_trip_duration_min DESC;
-
-
--- Checking if the difference between user types is due to outliers
-SELECT
-   usertype,
-   MAX(trip_duration_hour) AS MAX_trip_duration_hour,
-   ROUND((MAX(trip_duration_hour)/24),2) AS MAX_trip_duration_day
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype
-ORDER BY MAX_trip_duration_hour DESC;
-
-
--- Checking if the number of outliers is representative to impact on our average trip duration
-SELECT
-   usertype,
-   total_trips,
-   trip_duration_longer_than_3_days,
- ROUND(trip_duration_longer_than_3_days/total_trips*100,2) AS long_trips_percentage
-   FROM
-   (SELECT
-       usertype,
-       COUNT(ride_id) AS total_trips,
-   SUM(CASE WHEN trip_duration_min > 60*24*3 THEN 1 ELSE 0 END) AS trip_duration_longer_than_3_days
-       FROM case_study_v2.`test_202301-divvy-tripdata`
-       GROUP BY usertype) AS trip_count
-   GROUP BY usertype;
--- The casual riders average trip duration was not significantly impacted by outliers since there are only 5 instances.
-
-
--- Analysing trip duration per usertype by grouping them in time intervals
-SELECT
-   usertype,
-   COUNT(ID) AS total_trips,
- ROUND((COUNT(ID) / (SELECT COUNT(*) FROM case_study_v2.`2023-cyclistic-tripdata`)) * 100, 2) AS percentage,
-   CASE
-       WHEN trip_duration_min <= 15 THEN '00:15'
-       WHEN trip_duration_min BETWEEN 15 AND 30 THEN '00:30'
-       WHEN trip_duration_min BETWEEN 31 AND 45 THEN '00:45'
-       WHEN trip_duration_hour = 1 THEN '01:00'
-       WHEN trip_duration_hour = 2 THEN '02:00'
-       ELSE '> 2:00'
-   END AS trip_duration_behaviour
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY trip_duration_behaviour, usertype
-ORDER BY trip_duration_behaviour;
-
-
--- Counting how many stations are used to start trips
-SELECT                                         
-   COUNT(DISTINCT start_station_name)
-FROM case_study_v2.`2023-cyclistic-tripdata`;
-#Result:1586
-
-
--- Calculating 100 most popular stations to start trips, leaving out unknown stations where station names and ids are missing
-SELECT
-   DISTINCT start_station_name,
-   SUM(CASE WHEN trip_id = trip_id AND start_station_name = start_station_name THEN 1 ELSE 0 END) AS total_trips,
-   SUM(CASE WHEN usertype = 'member' AND start_station_name = start_station_name THEN 1 ELSE 0 END) AS member_trips,
-   SUM(CASE WHEN usertype = 'casual' AND start_station_name = start_station_name THEN 1 ELSE 0 END) AS casual_trips,
-   start_lat,
-   start_lng
-FROM case_study_v2.`2023-cyclistic-tripdata`
-WHERE start_station_name <> "unknown"
-GROUP BY start_station_name, start_lat, start_lng
-ORDER BY total_trips DESC
-LIMIT 100;
+-- bla bla bla
 ```
+</details>
+
+
+
 </details>
 
 ### Visualisations and Key Findings
