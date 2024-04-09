@@ -530,6 +530,8 @@ SELECT
 	FROM case_study_v2.`2023-cyclistic-tripdata` 
 	WHERE usertype = "casual") AS avg_casual_trip_duration_min;
 ```
+</details>
+
 Given that casual riders hold the bike nearly twice as long as members on average, we need to delve deeper into the data to understand if this disparity is influenced by a peak in trips during a particular month. 
 
 When comparing their average trip durations, we observe consistency throughout the year, with peaks during the summer months, yet still displaying an approximate 10-minute difference between members and casual riders.
