@@ -263,7 +263,7 @@ Data analysis was carried out in MySQL and several calculations have been perfor
   <summary>Click to show full analysis.</summary>
 
 **Insight**
-![total trips count](Images/1_total_trips_count.jpeg)
+![total trips count](Images/01_total_trips_count.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -287,7 +287,7 @@ FROM
 </details>
 
 **Insight**
-![trip count by month](Images/2_month_trip_count.jpeg)
+![trip count by month](Images/02_month_trip_count.jpg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -313,7 +313,7 @@ ORDER BY total_trips DESC;
 </details>
 
 **Insight**
-![trip count by weekday](Images/3_weekday_trip_count.jpeg)
+![trip count by weekday](Images/03_weekday_trip_count.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -339,7 +339,7 @@ ORDER BY total_trips DESC;
 </details>
 
 **Insight**
-![trip count by time of day](Images/4_time_of_day_trip_count.jpeg)
+![trip count by time of day](Images/04_time_of_day_trip_count.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -365,7 +365,7 @@ ORDER BY total_trips DESC;
 </details>
 
 **Insight**
-![trip count by hour](Images/5_hour_trip_count.jpeg)
+![trip count by hour](Images/05_hour_trip_count.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -392,9 +392,9 @@ LIMIT 10;
 </details>
 
 **Insight**
-![member's busiest times](Images/6_member_busiest_times.jpeg)
+![members' busiest times](Images/06_member_busiest_times.jpeg)
 
-![casual's busiest times](Images/7_casual_busiest_times.jpeg)
+![casuals' busiest times](Images/07_casual_busiest_times.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -496,7 +496,7 @@ JOIN
 </details>
 
 **Insight**
-![trip count by rideable type](Images/8_rideable_type_trip_count.jpeg)
+![trip count by rideable type](Images/08_rideable_type_trip_count.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -513,7 +513,7 @@ ORDER BY total_trips DESC;
 </details>
 
 **Insight**
-![average trip duration](Images/9_avg_trip_duration.jpeg)
+![average trip duration](Images/09_avg_trip_duration.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -535,7 +535,61 @@ SELECT
 </details>
 
 **Insight**
-![member avg trip duration by month](Images/10_member_month_avg_trip_duration.jpeg)
+![member vs casual avg trip duration by month](Images/10_member_vs_casual_month_avg_trip_duration.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- Checking if the difference between usertypes is due to trip peaks in particular months
+SELECT
+	usertype,
+	trip_month_name,
+	ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
+FROM case_study_v2.`2023-cyclistic-tripdata`
+WHERE usertype = "member"
+GROUP BY usertype, trip_month_name;
+
+SELECT
+	usertype,
+	trip_month_name,
+	ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
+FROM case_study_v2.`2023-cyclistic-tripdata`
+WHERE usertype = "casual"
+GROUP BY usertype, trip_month_name;
+
+```
+</details>
+
+**Insight**
+![member vs casual avg trip duration by weekday](Images/11_member_vs_casual_weekday_avg_trip_duration.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- Checking if the difference between usertypes is due to trip peaks in particular days of the week
+SELECT
+	usertype,
+	trip_weekday_name,
+	ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
+FROM case_study_v2.`2023-cyclistic-tripdata`
+WHERE usertype = "member"
+GROUP BY usertype, trip_weekday_name
+ORDER BY avg_trip_duration_min DESC;
+
+SELECT
+	usertype,
+	trip_weekday_name,
+	ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
+FROM case_study_v2.`2023-cyclistic-tripdata`
+WHERE usertype = "casual"
+GROUP BY usertype, trip_weekday_name
+ORDER BY avg_trip_duration_min DESC;
+
+```
+</details>
+
+**Insight**
+![outliers count for avg trip duration](Images/12_outliers_avg_trip_duration.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
