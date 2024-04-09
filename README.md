@@ -262,15 +262,8 @@ Data analysis was carried out in MySQL and several calculations have been perfor
 <details>
   <summary>Click to show full analysis.</summary>
 
-<details>
-<summary>Show SQL query</summary>
-```tsql
--- bla bla bla
-```
-</details>
-
 **Insight**
-[images/1_total_trips_count.jpeg]
+![total trips count](Images/1_total_trips_count.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -293,7 +286,273 @@ FROM
 ```
 </details>
 
+**Insight**
+![trip count by month](Images/2_month_trip_count.jpeg)
 
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- Calculating the total number of trips per usertype per month
+SELECT 
+	trip_month_name,
+    total_trips,
+    total_member_trips,
+	total_casual_trips
+FROM 
+	(
+	SELECT
+		trip_month_name,
+		COUNT(ID) AS total_trips,
+        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
+        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+    GROUP BY trip_month_name) AS trip_count_per_usertype
+GROUP BY trip_month_name
+ORDER BY total_trips DESC;
+```
+</details>
+
+**Insight**
+![trip count by weekday](Images/3_weekday_trip_count.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- Calculating the total number of trips per usertype per weekday
+SELECT 
+	trip_weekday_name,
+    total_trips,
+    total_member_trips,
+	total_casual_trips
+FROM 
+	(
+	SELECT
+		trip_weekday_name,
+		COUNT(ID) AS total_trips,
+        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
+        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+    GROUP BY trip_weekday_name) AS trip_count_per_usertype
+GROUP BY trip_weekday_name
+ORDER BY total_trips DESC;
+```
+</details>
+
+**Insight**
+![trip count by time of day](Images/4_time_of_day_trip_count.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- Calculating the total number of trips per usertype per time of day
+SELECT 
+	trip_time_of_day,
+    total_trips,
+    total_member_trips,
+	total_casual_trips
+FROM 
+	(
+	SELECT
+		trip_time_of_day,
+		COUNT(ID) AS total_trips,
+        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
+        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+    GROUP BY trip_time_of_day) AS trip_count_per_usertype
+GROUP BY trip_time_of_day
+ORDER BY total_trips DESC;
+```
+</details>
+
+**Insight**
+![trip count by hour](Images/5_hour_trip_count.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- Calculating the total number of trips per usertype per hour
+SELECT 
+	trip_hour,
+    total_trips,
+    total_member_trips,
+	total_casual_trips
+FROM 
+	(
+	SELECT
+		trip_hour,
+		COUNT(ID) AS total_trips,
+        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
+        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+    GROUP BY trip_hour) AS trip_count_per_usertype
+GROUP BY trip_hour
+ORDER BY total_trips DESC
+LIMIT 10;
+```
+</details>
+
+**Insight**
+![member's busiest times](Images/6_member_busiest_times.jpeg)
+
+![casual's busiest times](Images/7_casual_busiest_times.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- Calculating the busiest times for Members
+SELECT 
+    member AS usertype,
+    busiest_month.trip_month_name AS busiest_month,
+    busiest_day.trip_weekday_name AS busiest_day,
+    busiest_time.trip_time_of_day AS busiest_time,
+    busiest_hour.trip_hour AS busiest_hour
+FROM
+    (SELECT 
+        trip_month_name,
+        COUNT(*) AS total_trips
+    FROM case_study_v2.`2023-cyclistic-tripdata`
+	WHERE usertype = "member"
+    GROUP BY trip_month_name
+    ORDER BY total_trips DESC
+    LIMIT 1) AS busiest_month
+    
+JOIN
+    (SELECT 
+        trip_weekday_name,
+        COUNT(*) AS total_trips
+    FROM case_study_v2.`2023-cyclistic-tripdata`
+	WHERE usertype = "member"
+    GROUP BY trip_weekday_name
+    ORDER BY total_trips DESC
+    LIMIT 1) AS busiest_day
+
+JOIN
+    (SELECT 
+        trip_time_of_day,
+        COUNT(*) AS total_trips
+    FROM case_study_v2.`2023-cyclistic-tripdata`
+	WHERE usertype = "member"
+    GROUP BY trip_time_of_day
+    ORDER BY total_trips DESC
+    LIMIT 1) AS busiest_time
+    
+    JOIN
+    (SELECT 
+        trip_hour,
+        COUNT(*) AS total_trips
+    FROM case_study_v2.`2023-cyclistic-tripdata`
+	WHERE usertype = "member"
+    GROUP BY trip_hour
+    ORDER BY total_trips DESC
+    LIMIT 1) AS busiest_hour;
+
+-- Calculating the busiest times for Casuals
+SELECT 
+    casual AS usertype,
+    busiest_month.trip_month_name AS busiest_month,
+    busiest_day.trip_weekday_name AS busiest_day,
+    busiest_time.trip_time_of_day AS busiest_time,
+    busiest_hour.trip_hour AS busiest_hour
+FROM
+    (SELECT 
+        trip_month_name,
+        COUNT(*) AS total_trips
+    FROM case_study_v2.`2023-cyclistic-tripdata`
+	WHERE usertype = "casual"
+    GROUP BY trip_month_name
+    ORDER BY total_trips DESC
+    LIMIT 1) AS busiest_month
+    
+JOIN
+    (SELECT 
+        trip_weekday_name,
+        COUNT(*) AS total_trips
+    FROM case_study_v2.`2023-cyclistic-tripdata`
+	WHERE usertype = "casual"
+    GROUP BY trip_weekday_name
+    ORDER BY total_trips DESC
+    LIMIT 1) AS busiest_day
+
+JOIN
+    (SELECT 
+        trip_time_of_day,
+        COUNT(*) AS total_trips
+    FROM case_study_v2.`2023-cyclistic-tripdata`
+	WHERE usertype = "casual"
+    GROUP BY trip_time_of_day
+    ORDER BY total_trips DESC
+    LIMIT 1) AS busiest_time
+    
+    JOIN
+    (SELECT 
+        trip_hour,
+        COUNT(*) AS total_trips
+    FROM case_study_v2.`2023-cyclistic-tripdata`
+	WHERE usertype = "casual"
+    GROUP BY trip_hour
+    ORDER BY total_trips DESC
+    LIMIT 1) AS busiest_hour;
+```
+</details>
+
+**Insight**
+![trip count by rideable type](Images/8_rideable_type_trip_count.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- Calculating the total number of trips per usertype per type of bike
+SELECT
+	usertype,
+	rideable_type,
+	COUNT(ID) AS total_trips
+FROM case_study_v2.`2023-cyclistic-tripdata`
+GROUP BY usertype, rideable_type
+ORDER BY total_trips DESC;
+```
+</details>
+
+**Insight**
+![average trip duration](Images/9_avg_trip_duration.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- Calculating the average trip duration in 2023
+SELECT
+	(SELECT
+	ROUND(AVG(trip_duration_min)) 
+	FROM case_study_v2.`2023-cyclistic-tripdata`) AS avg_overall_trip_duration_min,
+	(SELECT
+	ROUND(AVG(trip_duration_min)) 
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+	WHERE usertype = "member") AS avg_member_trip_duration_min,
+	(SELECT
+	ROUND(AVG(trip_duration_min)) 
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+	WHERE usertype = "casual") AS avg_casual_trip_duration_min;
+```
+</details>
+
+**Insight**
+![member avg trip duration by month](Images/10_member_month_avg_trip_duration.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- bla bla bla
+```
+</details>
+
+**Insight**
+![](Images/.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+```tsql
+-- bla bla bla
+```
+</details>
 
 </details>
 
