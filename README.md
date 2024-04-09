@@ -642,7 +642,9 @@ SELECT
 
 We can conclude that casual riders' average trip duration remains largely unaffected by outliers, as these instances are minimal, constituting only 5 trips, which represent 0% of the total trips analysed.
 
-Now, let’s examine the distribution of rides per user type by grouping them into time intervals. It's evident that both user groups tend to take short rides within 15 minutes, particularly members. However, casual rides surpass member rides when considering trips lasting more than 45 minutes, indicating their preference for longer rides.
+Now, let’s examine the distribution of rides per user type by grouping them into time intervals. 
+
+It's evident that both user groups tend to take short rides within 15 minutes, particularly members. However, casual rides surpass member rides when considering trips lasting more than 45 minutes, indicating their preference for longer rides.
 
 **Insight**
 ![trip duration by time intervals](Images/13_trip_duration_time_intervals.jpeg)
