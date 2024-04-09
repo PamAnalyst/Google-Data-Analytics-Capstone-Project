@@ -269,6 +269,30 @@ Data analysis was carried out in MySQL and several calculations have been perfor
 ```
 </details>
 
+**Insight**
+[images/1_total_trips_count.jpeg]
+
+<details>
+<summary>Show SQL query</summary>
+	
+```tsql
+-- Calculating the total number of trips in 2023 per usertype
+SELECT 
+	total_trips,
+    total_member_trips,
+	total_casual_trips,
+	ROUND(total_member_trips/total_trips,2)*100 AS member_percentage,
+	ROUND(total_casual_trips/total_trips,2)*100 AS casual_percentage
+FROM 
+	(
+	SELECT
+		COUNT(ID) AS total_trips,
+        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
+        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
+	FROM case_study_v2.`2023-cyclistic-tripdata`) AS trip_count_per_usertype;
+```
+</details>
+
 
 
 </details>
