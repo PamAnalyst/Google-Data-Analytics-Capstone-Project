@@ -262,7 +262,7 @@ Data analysis was carried out in MySQL and several calculations have been perfor
 <details>
   <summary>Click to show full analysis.</summary>
 
-**Insight**
+When examining bike trips taken in 2023, we can see that members are notably more active users compared to casual riders, constituting over 64% of the total trips.
 
 ![total trips count](Images/01_total_trips_count.jpeg)
 
@@ -287,120 +287,10 @@ FROM
 ```
 </details>
 
-**Insight**
-![trip count by month](Images/02_month_trip_count.jpg)
+First, let’s take a quick look at the busiest times for each usertype and we’ll then delve into each of these.
 
-<details>
-<summary>Show SQL query</summary>
-	
-```tsql
--- Calculating the total number of trips per usertype per month
-SELECT 
-	trip_month_name,
-    total_trips,
-    total_member_trips,
-	total_casual_trips
-FROM 
-	(
-	SELECT
-		trip_month_name,
-		COUNT(ID) AS total_trips,
-        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
-        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
-    GROUP BY trip_month_name) AS trip_count_per_usertype
-GROUP BY trip_month_name
-ORDER BY total_trips DESC;
-
-```
-</details>
-
-**Insight**
-![trip count by weekday](Images/03_weekday_trip_count.jpeg)
-
-<details>
-<summary>Show SQL query</summary>
-	
-```tsql
--- Calculating the total number of trips per usertype per weekday
-SELECT 
-	trip_weekday_name,
-    total_trips,
-    total_member_trips,
-	total_casual_trips
-FROM 
-	(
-	SELECT
-		trip_weekday_name,
-		COUNT(ID) AS total_trips,
-        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
-        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
-    GROUP BY trip_weekday_name) AS trip_count_per_usertype
-GROUP BY trip_weekday_name
-ORDER BY total_trips DESC;
-```
-</details>
-
-**Insight**
-![trip count by time of day](Images/04_time_of_day_trip_count.jpeg)
-
-<details>
-<summary>Show SQL query</summary>
-	
-```tsql
--- Calculating the total number of trips per usertype per time of day
-SELECT 
-	trip_time_of_day,
-    total_trips,
-    total_member_trips,
-	total_casual_trips
-FROM 
-	(
-	SELECT
-		trip_time_of_day,
-		COUNT(ID) AS total_trips,
-        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
-        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
-    GROUP BY trip_time_of_day) AS trip_count_per_usertype
-GROUP BY trip_time_of_day
-ORDER BY total_trips DESC;
-```
-</details>
-
-**Insight**
-![trip count by hour](Images/05_hour_trip_count.jpeg)
-
-<details>
-<summary>Show SQL query</summary>
-	
-```tsql
--- Calculating the total number of trips per usertype per hour
-SELECT 
-	trip_hour,
-    total_trips,
-    total_member_trips,
-	total_casual_trips
-FROM 
-	(
-	SELECT
-		trip_hour,
-		COUNT(ID) AS total_trips,
-        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
-        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
-    GROUP BY trip_hour) AS trip_count_per_usertype
-GROUP BY trip_hour
-ORDER BY total_trips DESC
-LIMIT 10;
-```
-</details>
-
-**Insight**
-![members' busiest times](Images/06_member_busiest_times.jpeg)
-
-![casuals' busiest times](Images/07_casual_busiest_times.jpeg)
+![members' busiest times](Images/02_member_busiest_times.jpeg)
+![casuals' busiest times](Images/03_casual_busiest_times.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -502,28 +392,125 @@ JOIN
 ```
 </details>
 
-**Insight**
+When analysing total trips by month, we can see the annual trend persists, with annual members outnumbering casual riders in each month.
 
-![trip count by rideable type](Images/08_rideable_type_trip_count.jpeg)
+Additionally, both user types exhibit seasonal patterns, experiencing peak demand during summer months and a decline in winter. 
+
+![trip count by month](Images/04_month_trip_count.jpg)
 
 <details>
 <summary>Show SQL query</summary>
 	
 ```tsql
--- Calculating the total number of trips per usertype per type of bike
-SELECT
-	usertype,
-	rideable_type,
-	COUNT(ID) AS total_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`
-GROUP BY usertype, rideable_type
+-- Calculating the total number of trips per usertype per month
+SELECT 
+	trip_month_name,
+    total_trips,
+    total_member_trips,
+	total_casual_trips
+FROM 
+	(
+	SELECT
+		trip_month_name,
+		COUNT(ID) AS total_trips,
+        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
+        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+    GROUP BY trip_month_name) AS trip_count_per_usertype
+GROUP BY trip_month_name
+ORDER BY total_trips DESC;
+
+```
+</details>
+
+When analysing total trips by day, we can see that members tend to ride more during weekdays, especially on Thursdays, Wednesdays, and Tuesdays, whereas casual bikers prefer Saturdays, Sundays, and Fridays.
+
+![trip count by weekday](Images/05_weekday_trip_count.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+	
+```tsql
+-- Calculating the total number of trips per usertype per weekday
+SELECT 
+	trip_weekday_name,
+    total_trips,
+    total_member_trips,
+	total_casual_trips
+FROM 
+	(
+	SELECT
+		trip_weekday_name,
+		COUNT(ID) AS total_trips,
+        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
+        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+    GROUP BY trip_weekday_name) AS trip_count_per_usertype
+GROUP BY trip_weekday_name
 ORDER BY total_trips DESC;
 ```
 </details>
 
+When looking at the time of the day, we can see that members ride consistently throughout the day, including morning, afternoon and evening, while casual bikers predominantly ride in the afternoon.
 
-**Insight**
-![average trip duration](Images/09_avg_trip_duration.jpeg)
+![trip count by time of day](Images/06_time_of_day_trip_count.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+	
+```tsql
+-- Calculating the total number of trips per usertype per time of day
+SELECT 
+	trip_time_of_day,
+    total_trips,
+    total_member_trips,
+	total_casual_trips
+FROM 
+	(
+	SELECT
+		trip_time_of_day,
+		COUNT(ID) AS total_trips,
+        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
+        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+    GROUP BY trip_time_of_day) AS trip_count_per_usertype
+GROUP BY trip_time_of_day
+ORDER BY total_trips DESC;
+```
+</details>
+
+If we take a closer look and analyse the number of trips per hour, we can see that members’ bike usage is most frequent between 4 PM and 6 PM, as well as around 8 AM, correlating with typical working hours. Conversely, casual riders' activity peaks between 3 PM and 6 PM, suggesting a preference for leisurely rides during these hours.
+
+![trip count by hour](Images/07_hour_trip_count.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+	
+```tsql
+-- Calculating the total number of trips per usertype per hour
+SELECT 
+	trip_hour,
+    total_trips,
+    total_member_trips,
+	total_casual_trips
+FROM 
+	(
+	SELECT
+		trip_hour,
+		COUNT(ID) AS total_trips,
+        SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
+        SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
+	FROM case_study_v2.`2023-cyclistic-tripdata` 
+    GROUP BY trip_hour) AS trip_count_per_usertype
+GROUP BY trip_hour
+ORDER BY total_trips DESC
+LIMIT 10;
+```
+</details>
+
+Now, let’s have a look at how members and casual riders use the service differently based on their average trip duration.
+
+![average trip duration](Images/08_avg_trip_duration.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -543,10 +530,12 @@ SELECT
 	FROM case_study_v2.`2023-cyclistic-tripdata` 
 	WHERE usertype = "casual") AS avg_casual_trip_duration_min;
 ```
-</details>
+Given that casual riders hold the bike nearly twice as long as members on average, we need to delve deeper into the data to understand if this disparity is influenced by a peak in trips during a particular month. 
+
+When comparing their average trip durations, we observe consistency throughout the year, with peaks during the summer months, yet still displaying an approximate 10-minute difference between members and casual riders.
 
 **Insight**
-![member vs casual avg trip duration by month](Images/10_member_vs_casual_month_avg_trip_duration.jpeg)
+![member vs casual avg trip duration by month](Images/09_member_vs_casual_month_avg_trip_duration.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -572,8 +561,11 @@ GROUP BY usertype, trip_month_name;
 ```
 </details>
 
-**Insight**
-![member vs casual avg trip duration by weekday](Images/11_member_vs_casual_weekday_avg_trip_duration.jpeg)
+If the month is not the determining factor, let’s investigate if there are variations in trip durations based on the day of the week.
+
+Results consistently indicate that casual riders tend to ride twice as long as members on a daily basis, with peaks for both user types observed during weekends.
+
+![member vs casual avg trip duration by weekday](Images/10_member_vs_casual_weekday_avg_trip_duration.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -601,8 +593,9 @@ ORDER BY avg_trip_duration_min DESC;
 ```
 </details>
 
-**Insight**
-![max trip duration](Images/12_max_trip_duration.jpeg)
+Let’s delve deeper into this discrepancy by investigating the maximum trip duration for each usertype to assess its impact on the average.
+
+![max trip duration](Images/11_max_trip_duration.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -618,9 +611,11 @@ ORDER BY MAX_trip_duration_hour DESC;
 ```
 </details>
 
-**Insight** The casual riders average trip duration was not significantly impacted by outliers since they are only 5.
+Ah-ha! The maximum trip duration for casual riders is notably high, with the longest trip recorded at 202 hours. 
 
-![outliers count for trip duration](Images/13_outliers_avg_trip_duration.jpeg)
+Now, let’s determine if this outlier significantly influences our average trip duration. We'll identify casual riders’ trips exceeding 3 days, assuming these extended durations may be attributed to tourists holding the bike for an entire weekend.
+
+![outliers count for trip duration](Images/12_outliers_avg_trip_duration.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -643,8 +638,12 @@ SELECT
 ```
 </details>
 
+We can conclude that casual riders' average trip duration remains largely unaffected by outliers, as these instances are minimal, constituting only 5 trips, which represent 0% of the total trips analysed.
+
+Now, let’s examine the distribution of rides per user type by grouping them into time intervals. It's evident that both user groups tend to take short rides within 15 minutes, particularly members. However, casual rides surpass member rides when considering trips lasting more than 45 minutes, indicating their preference for longer rides.
+
 **Insight**
-![trip duration by time intervals](Images/14_trip_duration_time_intervals.jpeg)
+![trip duration by time intervals](Images/13_trip_duration_time_intervals.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
