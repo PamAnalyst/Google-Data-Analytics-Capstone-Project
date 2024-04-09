@@ -502,8 +502,8 @@ JOIN
 ```
 </details>
 
-
 **Insight**
+
 ![trip count by rideable type](Images/08_rideable_type_trip_count.jpeg)
 
 <details>
@@ -601,20 +601,94 @@ ORDER BY avg_trip_duration_min DESC;
 </details>
 
 **Insight**
-![outliers count for avg trip duration](Images/12_outliers_avg_trip_duration.jpeg)
+![max trip duration](Images/12_max_trip_duration.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
+
 ```tsql
--- bla bla bla
+-- Checking if the difference between usertypes is due to outliers
+SELECT 
+	usertype,
+	MAX(trip_duration_hour) AS MAX_trip_duration_hour
+FROM case_study_v2.`2023-cyclistic-tripdata`
+GROUP BY usertype
+ORDER BY MAX_trip_duration_hour DESC;
 ```
 </details>
+
+**Insight** The casual riders average trip duration was not significantly impacted by outliers since they are only 5.
+
+![outliers count for trip duration](Images/13_outliers_avg_trip_duration.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+	
+```tsql
+-- Checking if the number of outliers is representative to impact on our average trip duration
+SELECT
+	usertype,
+	total_trips,
+    trip_duration_longer_than_3_days,
+    ROUND(trip_duration_longer_than_3_days/total_trips*100,2) AS long_trips_percentage
+    FROM
+	(SELECT
+		usertype,
+		COUNT(ID) AS total_trips,
+		SUM(CASE WHEN trip_duration_min > 60*24*3 THEN 1 ELSE 0 END) AS trip_duration_longer_than_3_days
+		FROM case_study_v2.`2023-cyclistic-tripdata`
+        GROUP BY usertype) AS trip_count
+	GROUP BY usertype;
+```
+</details>
+
+**Insight**
+![trip duration by time intervals](Images/14_trip_duration_time_intervals.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+	
+```tsql
+-- Analysing trip duration per usertype by grouping them in time intervals
+SELECT
+	usertype,
+    COUNT(ID) AS total_trips,
+    ROUND((COUNT(ID) / (SELECT COUNT(*) FROM case_study_v2.`2023-cyclistic-tripdata`)) * 100, 2) AS percentage,
+    CASE 
+        WHEN trip_duration_min <= 15 THEN '00:15'
+        WHEN trip_duration_min BETWEEN 15 AND 30 THEN '00:30'
+        WHEN trip_duration_min BETWEEN 31 AND 45 THEN '00:45'
+        WHEN trip_duration_hour = 1 THEN '01:00'
+        WHEN trip_duration_hour = 2 THEN '02:00'
+        ELSE '> 2:00'
+    END AS trip_duration_behaviour
+FROM case_study_v2.`2023-cyclistic-tripdata`
+GROUP BY trip_duration_behaviour, usertype
+ORDER BY trip_duration_behaviour;
+```
+</details>
+
+**Insight**
+![start station count](Images/15_start_station_count.jpeg)
+
+<details>
+<summary>Show SQL query</summary>
+	
+```tsql
+-- Counting how many stations are used to start trips
+SELECT                                          
+	COUNT(DISTINCT start_station_name)
+FROM case_study_v2.`2023-cyclistic-tripdata`;
+```
+</details>
+
 
 **Insight**
 ![](Images/.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- bla bla bla
 ```
