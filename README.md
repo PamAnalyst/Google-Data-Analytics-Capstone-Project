@@ -577,6 +577,7 @@ GROUP BY usertype, trip_month_name;
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- Checking if the difference between usertypes is due to trip peaks in particular days of the week
 SELECT
@@ -667,6 +668,7 @@ GROUP BY trip_duration_behaviour, usertype
 ORDER BY trip_duration_behaviour;
 ```
 </details>
+
 
 **Insight**
 ![start station count](Images/15_start_station_count.jpeg)
