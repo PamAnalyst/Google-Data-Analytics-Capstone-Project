@@ -263,6 +263,7 @@ Data analysis was carried out in MySQL and several calculations have been perfor
   <summary>Click to show full analysis.</summary>
 
 **Insight**
+
 ![total trips count](Images/01_total_trips_count.jpeg)
 
 <details>
@@ -291,6 +292,7 @@ FROM
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- Calculating the total number of trips per usertype per month
 SELECT 
@@ -309,6 +311,7 @@ FROM
     GROUP BY trip_month_name) AS trip_count_per_usertype
 GROUP BY trip_month_name
 ORDER BY total_trips DESC;
+
 ```
 </details>
 
@@ -317,6 +320,7 @@ ORDER BY total_trips DESC;
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- Calculating the total number of trips per usertype per weekday
 SELECT 
@@ -343,6 +347,7 @@ ORDER BY total_trips DESC;
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- Calculating the total number of trips per usertype per time of day
 SELECT 
@@ -369,6 +374,7 @@ ORDER BY total_trips DESC;
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- Calculating the total number of trips per usertype per hour
 SELECT 
@@ -398,6 +404,7 @@ LIMIT 10;
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- Calculating the busiest times for Members
 SELECT 
@@ -500,6 +507,7 @@ JOIN
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- Calculating the total number of trips per usertype per type of bike
 SELECT
@@ -517,6 +525,7 @@ ORDER BY total_trips DESC;
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- Calculating the average trip duration in 2023
 SELECT
@@ -539,6 +548,7 @@ SELECT
 
 <details>
 <summary>Show SQL query</summary>
+	
 ```tsql
 -- Checking if the difference between usertypes is due to trip peaks in particular months
 SELECT
