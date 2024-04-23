@@ -1,9 +1,11 @@
 # Google-Data-Analytics-Capstone-Project
 ## Case study: How does a bike-share navigate speedy success? 
 
-In this case study, I examine historical data from a fictional Chicago based bike-share company using MySQL for analysis. Next, I craft visualisations in Tableau to illustrate my findings and conclude by offering recommendations to assist the company in addressing their business queries.
+In this case study, I examine historical data from a fictional Chicago based bike-share company using MySQL for analysis. I have crafted visualisations in Tableau to illustrate my findings and concluded by offering recommendations to assist the company in addressing their business queries.
 
-Below, you'll find further details on the case study scenario and my full report.
+For a detailed summary and visual representation of my analysis, please visit the Tableau Public dashboard I created [insert link here].
+
+Below, you'll find further details on the case study scenario and the full report.
 
 ### Scenario
 As a junior data analyst at Cyclistic, a bike-share company in Chicago, my task is to maximise annual memberships by understanding the differences in bike usage between casual riders and annual members. My team aims to design a new marketing strategy backed by compelling data insights and professional visualisations. 
@@ -18,9 +20,9 @@ Financial analysis has demonstrated that annual members are much more profitable
 Analyse historical bike trip data to identify trends in how annual members and casual riders use Cyclistic bikes differently, facilitating the design of marketing strategies aimed at converting casual riders into annual members.
 
 ### Data Sources
-Given that Cyclistic is a fictional company, the data has been made available by Motivate International Inc. under this license .
+Given that Cyclistic is a fictional company, the data has been made available by Motivate International Inc. under this [licence](https://divvybikes.com/data-license-agreement).
 
-This data is provided according to the Divvy Data License Agreement and released on a monthly schedule. Each trip is anonymized and includes:
+This data is provided according to the [Divvy Data License Agreement](https://divvybikes.com/data-license-agreement) and released on a monthly schedule. Each trip is anonymized and includes:
 + Trip start day and time
 + Trip end day and time
 + Trip start station
@@ -29,7 +31,7 @@ This data is provided according to the Divvy Data License Agreement and released
 
 The data has been processed to remove trips that are taken by staff as they service and inspect the system; and any trips that were below 60 seconds in length (potentially false starts or users trying to re-dock a bike to ensure it was secure).
 
-For this analysis, we’ll be examining Divvy’s bike trip data from last year, 2023. A total of 12 CSV files have been downloaded from here. 
+For this analysis, we’ll be examining Divvy’s bike trip data from last year, 2023. A total of 12 CSV files have been downloaded from [here](https://divvy-tripdata.s3.amazonaws.com/index.html). 
 
 ### Data Cleaning and Manipulation 
 During this phase, datasets were thoroughly checked for corrupted, duplicate, incomplete, invalid data and they have been fixed accordingly.
