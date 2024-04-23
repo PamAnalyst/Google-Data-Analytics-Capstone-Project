@@ -5,7 +5,7 @@ In this case study, I examine historical data from a fictional Chicago based bik
 
 For a detailed summary and visual representation of my analysis, please visit the Tableau Public dashboard I created [insert link here].
 
-Below, you'll find further details on the case study scenario and the full report.
+Below, you will find further details on the case study scenario and the full report.
 
 ### Scenario
 As a junior data analyst at Cyclistic, a bike-share company in Chicago, my task is to maximise annual memberships by understanding the differences in bike usage between casual riders and annual members. My team aims to design a new marketing strategy backed by compelling data insights and professional visualisations. 
@@ -617,7 +617,7 @@ ORDER BY MAX_trip_duration_hour DESC;
 
 Ah-ha! The maximum trip duration for casual riders is notably high, with the longest trip recorded at 202 hours. 
 
-Now, let’s determine if this outlier significantly influences our average trip duration. We'll identify casual riders’ trips exceeding 3 days, assuming these extended durations may be attributed to tourists holding the bike for an entire weekend.
+Now, let’s determine if this outlier significantly influences our average trip duration. We will identify casual riders’ trips exceeding 3 days, assuming these extended durations may be attributed to tourists holding the bike for an entire weekend.
 
 ![outliers count for trip duration](Images/12_outliers_avg_trip_duration.jpeg)
 
@@ -646,7 +646,7 @@ We can conclude that casual riders' average trip duration remains largely unaffe
 
 Now, let’s examine the distribution of rides per user type by grouping them into time intervals. 
 
-It's evident that both user groups tend to take short rides within 15 minutes, particularly members. However, casual rides surpass member rides when considering trips lasting more than 45 minutes, indicating their preference for longer rides.
+It is evident that both user groups tend to take short rides within 15 minutes, particularly members. However, casual rides surpass member rides when considering trips lasting more than 45 minutes, indicating their preference for longer rides.
 
 **Insight**
 ![trip duration by time intervals](Images/13_trip_duration_time_intervals.jpeg)
@@ -676,7 +676,7 @@ ORDER BY trip_duration_behaviour;
 
 
 **Insight**
-![start station count](Images/15_start_station_count.jpeg)
+![start station count](Images/14_start_station_count.jpeg)
 
 <details>
 <summary>Show SQL query</summary>
@@ -689,6 +689,7 @@ FROM case_study_v2.`2023-cyclistic-tripdata`;
 ```
 </details>
 
+Considering there are 1586 stations
 
 **Insight**
 ![](Images/.jpeg)
@@ -706,7 +707,7 @@ FROM case_study_v2.`2023-cyclistic-tripdata`;
 ### Visualisations and Key Findings
 For a summary and overall visualisation of my full year analysis, please visit the Tableau Public dashboard I created here: Cyclistic BIKE SHARE | How do annual members and casual riders use Cyclistic bikes differently?
 
-Here are the top 10 **key insights** derived from my analysis:
+Here are the **top 10 key insights** derived from my analysis:
 + Annual members account for 64% of total rides, while casual users constitute 36%.
 + Both member and casual rider activity follows a seasonal trend, peaking in summer and declining in winter.
 + Members consistently outnumber casual riders every month.
