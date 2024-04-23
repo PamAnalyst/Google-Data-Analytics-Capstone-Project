@@ -3,7 +3,7 @@
 
 In this case study, I examine historical data from a fictional Chicago based bike-share company using MySQL for analysis. I have crafted visualisations in Tableau to illustrate my findings and concluded by offering recommendations to assist the company in addressing their business queries.
 
-For a detailed summary and visual representation of my analysis, please visit the Tableau Public dashboard I created [insert link here].
+For a detailed summary and visual representation of my analysis, please visit the Tableau Public dashboard I created [Cyclistic BIKE SHARE | How do annual members and casual riders use Cyclistic bikes differently?](https://public.tableau.com/views/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link).
 
 Below, you will find further details on the case study scenario and the full report.
 
@@ -705,7 +705,7 @@ Considering there are 1586 stations
 </details>
 
 ### Visualisations and Key Findings
-For a summary and overall visualisation of my full year analysis, please visit the Tableau Public dashboard I created here: Cyclistic BIKE SHARE | How do annual members and casual riders use Cyclistic bikes differently?
+For a summary and overall visualisation of my full year analysis, please visit the Tableau Public dashboard I have created: [Cyclistic BIKE SHARE | How do annual members and casual riders use Cyclistic bikes differently?](https://public.tableau.com/views/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link).
 
 Here are the **top 10 key insights** derived from my analysis:
 + Annual members account for 64% of total rides, while casual users constitute 36%.
