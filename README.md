@@ -12,7 +12,7 @@ As a junior data analyst at Cyclistic, a bike-share company in Chicago, my task 
 					
 **About the company**
 
-Cyclistic is a bike-share program that features more than 5,800 bicycles and 600 docking stations across Chicago. They classify their customers into two categories: *casual riders*, who buy single-ride or full-day passes, and *members*, who opt for annual memberships.
+Cyclistic is a bike-share program based in Chicago. Their customers are classified into two categories: *casual riders*, who buy single-ride or full-day passes, and *members*, who opt for annual memberships.
  								
 Financial analysis has demonstrated that annual members are much more profitable than casual riders and the marketing director believes that maximising the number of annual members will be key to future growth. Rather than pursuing a marketing campaign targeting entirely new customers, the focus now shifts towards converting casual riders into members.
 
