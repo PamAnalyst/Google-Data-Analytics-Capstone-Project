@@ -603,7 +603,7 @@ Let’s delve deeper into this discrepancy by investigating the **maximum trip d
 <summary>Show SQL query</summary>
 
 ```tsql
--- Checking if the difference between usertypes is due to **outliers**.
+-- Checking if the difference between usertypes is due to outliers.
 SELECT 
     usertype,
     MAX(trip_duration_hour) AS MAX_trip_duration_hour
@@ -615,7 +615,7 @@ ORDER BY MAX_trip_duration_hour DESC;
 
 Ah-ha! The maximum trip duration for casual riders is notably high, with the longest trip recorded at 202 hours. 
 
-Now, let’s determine if this outlier significantly influences our average trip duration. We will identify casual riders’ trips exceeding 3 days, assuming these extended durations may be attributed to tourists holding the bike for an entire weekend.
+Now, let’s determine if this **outlier** significantly influences our average trip duration. We will identify casual riders’ trips exceeding 3 days, assuming these extended durations may be attributed to tourists holding the bike for an entire weekend.
 
 ![outliers count for trip duration](Images/12_outliers_avg_trip_duration.jpeg)
 
