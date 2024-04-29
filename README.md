@@ -256,8 +256,7 @@ Data analysis was carried out in MySQL and several calculations have been perfor
 + Count of trips per usertype in 2023, monthly, weekly, daily, hourly.
 + Busiest times for each usertype.
 + Average trip duration per usertype.
-+ Count of stations used to start trips.
-+ 10 most popular stations to start trips per usertype.
++ 10 most popular stations per usertype.
   
 <details>
   <summary>Click to show full analysis.</summary>
@@ -756,7 +755,7 @@ Here are the **top 10 key insights** derived from my analysis:
 
 ```tsql
 
--- Creating views to store data for later visualisations
+-- Creating views to store data for later visualisations.
 
 
 -- Total number of trips in 2023.
