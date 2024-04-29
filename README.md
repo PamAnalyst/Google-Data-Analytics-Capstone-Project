@@ -752,7 +752,7 @@ Here are the **top 10 key insights** derived from my analysis:
 + Casual users' preferred stations are clustered together, often near Chicago's top attractions.
 
 <details>
-  <summary>Click to show queries used to create visuals</summary>
+  <summary>Click to show SQL queries used to create visuals.</summary>
 
 ```tsql
 
