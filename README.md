@@ -29,8 +29,6 @@ This data is provided according to the [Divvy Data License Agreement](https://di
 + Trip end station
 + Rider type (Member, Casual)
 
-The data has been processed to remove trips that are taken by staff as they service and inspect the system; and any trips that were below 60 seconds in length (potentially false starts or users trying to re-dock a bike to ensure it was secure).
-
 For this analysis, we’ll be examining Divvy’s bike trip data from last year, 2023. A total of 12 CSV files have been downloaded from [here](https://divvy-tripdata.s3.amazonaws.com/index.html). 
 
 ## Data Cleaning and Manipulation 
