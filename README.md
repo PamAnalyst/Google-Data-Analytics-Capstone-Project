@@ -3,7 +3,7 @@
 
 In this case study, I examine historical data from a fictional Chicago based bike-share company using MySQL for analysis. I have crafted visualisations in Tableau to illustrate my findings and concluded by offering recommendations to assist the company in addressing their business queries.
 
-For a detailed summary and visual representation of my analysis, please visit the Tableau Public dashboard I have created [Cyclistic BIKE SHARE | How do annual members and casual riders use Cyclistic bikes differently?](https://public.tableau.com/views/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link).
+For a detailed summary and visual representation of my analysis, please visit the [Tableau Public dashboard](https://public.tableau.com/views/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link) I have created.
 
 Below, you will find further details on the case study scenario and the full report.
 
@@ -903,7 +903,7 @@ LIMIT 100;
 </details>
 
 
-### Recommendations
+## Recommendations
 Based on the insights above, there are three primary areas Cyclistic should focus on when designing their marketing campaign aiming to convert casual riders into annual members. 
 
 + **Timing.**
