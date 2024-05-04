@@ -1,7 +1,7 @@
 # Google Data Analytics Capstone Project
 ## Case study: How does a bike-share navigate speedy success? 
 
-In this case study, I examine historical data from a fictional Chicago based bike-share company using MySQL for analysis. I have crafted visualisations in Tableau to illustrate my findings and concluded by offering recommendations to assist the company in addressing their business queries.
+This is the capstone project I've completed for [Google Data Analytics Professional Certificate](https://www.coursera.org/professional-certificates/google-data-analytics). In this case study, I analyzed historical data from a fictional Chicago-based bike-share company using MySQL. I crafted visualizations in Tableau to illustrate my findings and concluded by offering recommendations to assist the company in addressing their business queries
 
 For a detailed summary and visual representation of my analysis, please visit the [Tableau Public dashboard](https://public.tableau.com/views/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link) I have created.
 
@@ -57,20 +57,20 @@ Measures taken to fix errors and prepare the database for analysis:
 -- Creating a copy of the table before editing.
 CREATE TABLE copy_2023_cyclistic_tripdata
 SELECT *
-FROM case_study_v2.`2023-cyclistic-tripdata`;
+FROM case_study.`2023-cyclistic-tripdata`;
 
 
 -- Renaming columns for clarity.
-ALTER TABLE `case_study_v2`.`2023-cyclistic-tripdata`
+ALTER TABLE `case_study`.`2023-cyclistic-tripdata`
 CHANGE COLUMN `member_casual` `usertype` TEXT NULL DEFAULT NULL,
-RENAME TO  `case_study_v2`.`2023-cyclistic-tripdata`;
+RENAME TO  `case_study`.`2023-cyclistic-tripdata`;
 
 
 -- Checking for unexpected values.
 SELECT DISTINCT
    rideable_type,
    usertype
-FROM case_study_v2.`2023-cyclistic-tripdata`;
+FROM case_study.`2023-cyclistic-tripdata`;
 # Result: 5 row(s) returned
 
 
@@ -79,7 +79,7 @@ SELECT
    started_at,
    ended_at,
    ride_id
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE started_at IS NULL
    OR ended_at IS NULL
    OR ride_id IS NULL;
@@ -89,13 +89,13 @@ WHERE started_at IS NULL
 -- Checking for duplicates.
 SELECT
 COUNT(ride_id)
-FROM case_study_v2.`2023-cyclistic-tripdata`;
+FROM case_study.`2023-cyclistic-tripdata`;
 # Result: 6150470
 
 
 SELECT
 COUNT(DISTINCT ride_id)
-FROM case_study_v2.`2023-cyclistic-tripdata`;
+FROM case_study.`2023-cyclistic-tripdata`;
 # Result: 5712887
 
 
@@ -105,25 +105,25 @@ SELECT
    started_at,
    ended_at,
    COUNT(*) AS duplicate_count
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 GROUP BY ride_id, started_at, ended_at
 HAVING COUNT(*) > 1
 LIMIT 999999;
 # Result: 437583 row(s) returned
 
 
-ALTER TABLE case_study_v2.`2023-cyclistic-tripdata`
+ALTER TABLE case_study.`2023-cyclistic-tripdata`
 ADD COLUMN ID INT AUTO_INCREMENT PRIMARY KEY;
 
 
 -- Deleting duplicate rows based on ride_id.
-DELETE case_study_v2.`2023-cyclistic-tripdata`
-FROM case_study_v2.`2023-cyclistic-tripdata`
+DELETE case_study.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 LEFT JOIN (
    SELECT MIN(ID) AS ID
-   FROM case_study_v2.`2023-cyclistic-tripdata`
+   FROM case_study.`2023-cyclistic-tripdata`
    GROUP BY ride_id
-) AS keep_rows ON case_study_v2.`2023-cyclistic-tripdata`.ID = keep_rows.ID
+) AS keep_rows ON case_study.`2023-cyclistic-tripdata`.ID = keep_rows.ID
 WHERE keep_rows.ID IS NULL;
 # Result: 437583 row(s) affected
 
@@ -134,7 +134,7 @@ SELECT
    started_at,
    ended_at,
    COUNT(*) AS duplicate_count
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 GROUP BY ride_id, started_at, ended_at
 HAVING COUNT(*) > 1
 LIMIT 999999;
@@ -144,20 +144,20 @@ LIMIT 999999;
 -- Creating new columns to facilitate analysis.
 
 
-ALTER TABLE case_study_v2.`2023-cyclistic-tripdata` -- Calculating trip duration
+ALTER TABLE case_study.`2023-cyclistic-tripdata` -- Calculating trip duration
 ADD COLUMN trip_duration_hour INT,
 ADD COLUMN trip_duration_min INT,
 ADD COLUMN trip_duration_sec INT;
 
 
-UPDATE case_study_v2.`2023-cyclistic-tripdata`
+UPDATE case_study.`2023-cyclistic-tripdata`
 SET trip_duration_hour = TIMESTAMPDIFF(HOUR,started_at, ended_at),
    trip_duration_min = TIMESTAMPDIFF(MINUTE,started_at, ended_at),
    trip_duration_sec = TIMESTAMPDIFF(SECOND,started_at, ended_at);
 # 5712887 row(s) affected Rows matched: 5712887  Changed: 5712887  Warnings: 0
 
 
-ALTER TABLE case_study_v2.`2023-cyclistic-tripdata` -- Extracting the hour, time of day, day, weekday, month, year from started_at
+ALTER TABLE case_study.`2023-cyclistic-tripdata` -- Extracting the hour, time of day, day, weekday, month, year from started_at
 ADD COLUMN trip_hour INT,
 ADD COLUMN trip_time_of_day TEXT,
 ADD COLUMN trip_day INT,
@@ -168,7 +168,7 @@ ADD COLUMN trip_month_name TEXT,
 ADD COLUMN trip_season TEXT;
 
 
-UPDATE case_study_v2.`2023-cyclistic-tripdata`
+UPDATE case_study.`2023-cyclistic-tripdata`
 SET trip_hour = HOUR(started_at),
    trip_time_of_day = CASE
    WHEN HOUR(started_at) BETWEEN 6 and 11 THEN "Morning"
@@ -193,18 +193,18 @@ SET trip_hour = HOUR(started_at),
 -- Replacing empty cells with the text "unknown" on those cases where station name or station id are missing.
 SELECT
 COUNT(ID)
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE start_station_name = "" OR start_station_id = "";
 # Result: 875848
 
 
-UPDATE case_study_v2.`2023-cyclistic-tripdata`
+UPDATE case_study.`2023-cyclistic-tripdata`
 SET start_station_name = "unknown"
 WHERE start_station_name = "";
 # Result: 875716 row(s) affected Rows matched: 875716  Changed: 875716  Warnings: 0
 
 
-UPDATE case_study_v2.`2023-cyclistic-tripdata`
+UPDATE case_study.`2023-cyclistic-tripdata`
 SET start_station_id = "unknown"
 WHERE start_station_id = "";
 # Result: 875848 row(s) affected Rows matched: 875848  Changed: 875848  Warnings: 0
@@ -212,18 +212,18 @@ WHERE start_station_id = "";
 
 SELECT
 COUNT(ID)
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE end_station_name = "" OR end_station_id = "";
 # Result: 922469
 
 
-UPDATE case_study_v2.`2023-cyclistic-tripdata`
+UPDATE case_study.`2023-cyclistic-tripdata`
 SET end_station_name = "unknown"
 WHERE end_station_name = "";
 # Result: 922328 row(s) affected Rows matched: 922328  Changed: 922328  Warnings: 0
 
 
-UPDATE case_study_v2.`2023-cyclistic-tripdata`
+UPDATE case_study.`2023-cyclistic-tripdata`
 SET end_station_id = "unknown"
 WHERE end_station_id = "";
 # Result: 922469 row(s) affected Rows matched: 922469  Changed: 922469  Warnings: 0
@@ -232,12 +232,12 @@ WHERE end_station_id = "";
 -- Deleting rows with trips that lasted less than 1 minute.
 SELECT
 COUNT(ID)
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE trip_duration_min < 1;
 # Result: 149614
 
 
-DELETE FROM case_study_v2.`2023-cyclistic-tripdata`
+DELETE FROM case_study.`2023-cyclistic-tripdata`
 WHERE trip_duration_min < 1;
 # Result: 149614 row(s) affected
 
@@ -245,7 +245,7 @@ WHERE trip_duration_min < 1;
 -- Checking if end dates are later than start dates.
 SELECT
 *
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE ended_at <= started_at;
 # Result: 0 row(s) returned
 ```
@@ -283,7 +283,7 @@ FROM
 	    COUNT(ID) AS total_trips,
             SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
             SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-	FROM case_study_v2.`2023-cyclistic-tripdata`) AS trip_count_per_usertype;
+	FROM case_study.`2023-cyclistic-tripdata`) AS trip_count_per_usertype;
 ```
 </details>
 
@@ -307,7 +307,7 @@ FROM
     (SELECT 
         trip_month_name,
         COUNT(*) AS total_trips
-    FROM case_study_v2.`2023-cyclistic-tripdata`
+    FROM case_study.`2023-cyclistic-tripdata`
     WHERE usertype = "member"
     GROUP BY trip_month_name
     ORDER BY total_trips DESC
@@ -317,7 +317,7 @@ JOIN
     (SELECT 
         trip_weekday_name,
         COUNT(*) AS total_trips
-    FROM case_study_v2.`2023-cyclistic-tripdata`
+    FROM case_study.`2023-cyclistic-tripdata`
     WHERE usertype = "member"
     GROUP BY trip_weekday_name
     ORDER BY total_trips DESC
@@ -327,7 +327,7 @@ JOIN
     (SELECT 
         trip_time_of_day,
         COUNT(*) AS total_trips
-    FROM case_study_v2.`2023-cyclistic-tripdata`
+    FROM case_study.`2023-cyclistic-tripdata`
     WHERE usertype = "member"
     GROUP BY trip_time_of_day
     ORDER BY total_trips DESC
@@ -337,7 +337,7 @@ JOIN
     (SELECT 
         trip_hour,
         COUNT(*) AS total_trips
-    FROM case_study_v2.`2023-cyclistic-tripdata`
+    FROM case_study.`2023-cyclistic-tripdata`
     WHERE usertype = "member"
     GROUP BY trip_hour
     ORDER BY total_trips DESC
@@ -354,7 +354,7 @@ FROM
     (SELECT 
         trip_month_name,
         COUNT(*) AS total_trips
-    FROM case_study_v2.`2023-cyclistic-tripdata`
+    FROM case_study.`2023-cyclistic-tripdata`
     WHERE usertype = "casual"
     GROUP BY trip_month_name
     ORDER BY total_trips DESC
@@ -364,7 +364,7 @@ JOIN
     (SELECT 
         trip_weekday_name,
         COUNT(*) AS total_trips
-    FROM case_study_v2.`2023-cyclistic-tripdata`
+    FROM case_study.`2023-cyclistic-tripdata`
     WHERE usertype = "casual"
     GROUP BY trip_weekday_name
     ORDER BY total_trips DESC
@@ -374,7 +374,7 @@ JOIN
     (SELECT 
         trip_time_of_day,
         COUNT(*) AS total_trips
-    FROM case_study_v2.`2023-cyclistic-tripdata`
+    FROM case_study.`2023-cyclistic-tripdata`
     WHERE usertype = "casual"
     GROUP BY trip_time_of_day
     ORDER BY total_trips DESC
@@ -384,7 +384,7 @@ JOIN
     (SELECT 
         trip_hour,
         COUNT(*) AS total_trips
-    FROM case_study_v2.`2023-cyclistic-tripdata`
+    FROM case_study.`2023-cyclistic-tripdata`
     WHERE usertype = "casual"
     GROUP BY trip_hour
     ORDER BY total_trips DESC
@@ -415,7 +415,7 @@ FROM
 	    COUNT(ID) AS total_trips,
             SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
             SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
+	FROM case_study.`2023-cyclistic-tripdata` 
 	GROUP BY trip_month_name) AS trip_count_per_usertype
 GROUP BY trip_month_name
 ORDER BY total_trips DESC;
@@ -444,7 +444,7 @@ FROM
 	    COUNT(ID) AS total_trips,
             SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
             SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
+	FROM case_study.`2023-cyclistic-tripdata` 
         GROUP BY trip_weekday_name) AS trip_count_per_usertype
 GROUP BY trip_weekday_name
 ORDER BY total_trips DESC;
@@ -472,7 +472,7 @@ FROM
 	    COUNT(ID) AS total_trips,
             SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
             SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
+	FROM case_study.`2023-cyclistic-tripdata` 
         GROUP BY trip_time_of_day) AS trip_count_per_usertype
 GROUP BY trip_time_of_day
 ORDER BY total_trips DESC;
@@ -500,7 +500,7 @@ FROM
 	    COUNT(ID) AS total_trips,
             SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
             SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
+	FROM case_study.`2023-cyclistic-tripdata` 
         GROUP BY trip_hour) AS trip_count_per_usertype
 GROUP BY trip_hour
 ORDER BY total_trips DESC
@@ -520,14 +520,14 @@ Now, let’s have a look at how members and casual riders use the service differ
 SELECT
 	(SELECT
 	    ROUND(AVG(trip_duration_min)) 
-	FROM case_study_v2.`2023-cyclistic-tripdata`) AS avg_overall_trip_duration_min,
+	FROM case_study.`2023-cyclistic-tripdata`) AS avg_overall_trip_duration_min,
 	(SELECT
 	    ROUND(AVG(trip_duration_min)) 
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
+	FROM case_study.`2023-cyclistic-tripdata` 
 	WHERE usertype = "member") AS avg_member_trip_duration_min,
 	(SELECT
 	    ROUND(AVG(trip_duration_min)) 
-	FROM case_study_v2.`2023-cyclistic-tripdata` 
+	FROM case_study.`2023-cyclistic-tripdata` 
 	WHERE usertype = "casual") AS avg_casual_trip_duration_min;
 ```
 </details>
@@ -545,7 +545,7 @@ SELECT
     usertype,
     trip_month_name,
     ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE usertype = "member"
 GROUP BY usertype, trip_month_name;
 
@@ -553,7 +553,7 @@ SELECT
     usertype,
     trip_month_name,
     ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE usertype = "casual"
 GROUP BY usertype, trip_month_name;
 
@@ -575,7 +575,7 @@ SELECT
     usertype,
     trip_weekday_name,
     ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE usertype = "member"
 GROUP BY usertype, trip_weekday_name
 ORDER BY avg_trip_duration_min DESC;
@@ -584,7 +584,7 @@ SELECT
     usertype,
     trip_weekday_name,
     ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE usertype = "casual"
 GROUP BY usertype, trip_weekday_name
 ORDER BY avg_trip_duration_min DESC;
@@ -606,7 +606,7 @@ Let’s delve deeper into this discrepancy by investigating the **maximum trip d
 SELECT 
     usertype,
     MAX(trip_duration_hour) AS MAX_trip_duration_hour
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 GROUP BY usertype
 ORDER BY MAX_trip_duration_hour DESC;
 ```
@@ -633,13 +633,13 @@ FROM
 	    usertype,
 	    COUNT(ID) AS total_trips,
 	    SUM(CASE WHEN trip_duration_min > 60*24*3 THEN 1 ELSE 0 END) AS trip_duration_longer_than_3_days
-	    FROM case_study_v2.`2023-cyclistic-tripdata`
+	    FROM case_study.`2023-cyclistic-tripdata`
             GROUP BY usertype) AS trip_count
 GROUP BY usertype;
 ```
 </details>
 
-We can conclude that casual riders' average trip duration remains largely unaffected by outliers, as these instances are minimal, constituting only 5 trips, which represent 0% of the total trips analysed.
+We can conclude that casual riders' average trip duration remains largely unaffected by outliers, as these instances are minimal, constituting only 5 trips, which represent practically 0% of the total trips analysed.
 
 Now, let’s examine the distribution of rides per user type by grouping them into **time intervals**. 
 
@@ -655,7 +655,7 @@ It is evident that both user groups tend to take short rides within 15 minutes, 
 SELECT
     usertype,
     COUNT(ID) AS total_trips,
-    ROUND((COUNT(ID) / (SELECT COUNT(*) FROM case_study_v2.`2023-cyclistic-tripdata`)) * 100, 2) AS percentage,
+    ROUND((COUNT(ID) / (SELECT COUNT(*) FROM case_study.`2023-cyclistic-tripdata`)) * 100, 2) AS percentage,
     CASE 
         WHEN trip_duration_min <= 15 THEN '00:15'
         WHEN trip_duration_min BETWEEN 15 AND 30 THEN '00:30'
@@ -664,13 +664,13 @@ SELECT
         WHEN trip_duration_hour = 2 THEN '02:00'
         ELSE '> 2:00'
     END AS trip_duration_behaviour
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 GROUP BY trip_duration_behaviour, usertype
 ORDER BY trip_duration_behaviour;
 ```
 </details>
 
-Let's now examine the **top 10 stations** to identify the most frequently used ones by each user type.
+Let's now examine the **top 10 stations** to identify the most frequently used by each user type.
 
 ![members' top 10 stations](Images/14_member_top_10_stations.jpeg)
 ![casual riders' top 10 stations](Images/15_casual_top_10_stations.jpeg)
@@ -684,7 +684,7 @@ SELECT
     start_station_name,
     usertype, 
     COUNT(ID) AS number_of_trips
-FROM case_study_v2.2023-cyclistic-tripdata
+FROM case_study.2023-cyclistic-tripdata
 WHERE usertype = "Member" AND start_station_name != "unknown"
 GROUP BY start_station_name
 ORDER BY number_of_trips DESC
@@ -695,7 +695,7 @@ SELECT
     end_station_name,
     usertype, 
     COUNT(ID) AS number_of_trips
-FROM case_study_v2.2023-cyclistic-tripdata
+FROM case_study.2023-cyclistic-tripdata
 WHERE usertype = "Member" AND end_station_name != "unknown"
 GROUP BY end_station_name
 ORDER BY number_of_trips DESC
@@ -706,7 +706,7 @@ SELECT
     start_station_name,
     usertype, 
     COUNT(ID) AS number_of_trips
-FROM case_study_v2.2023-cyclistic-tripdata
+FROM case_study.2023-cyclistic-tripdata
 WHERE usertype = "Casual" AND start_station_name != "unknown"
 GROUP BY start_station_name
 ORDER BY number_of_trips DESC
@@ -741,7 +741,7 @@ For a summary and overall visualisation of my full year analysis, please visit t
 Here are the **top 10 key insights** derived from my analysis:
 + Annual members account for 64% of total rides, while casual users constitute 36%.
 + Both member and casual rider activity follows a seasonal trend, peaking in summer and declining in winter.
-+ Members consistently outnumber casual riders every month.
++ Members' activity consistently surpases casual riders' every month.
 + August is the peak month for members, while casual users peak in July.
 + Members primarily use the service for commuting, with peak activity during weekday rush hours, specifically around 8 AM and 5 PM.
 + Casual users predominantly ride for leisure, with peak activity on weekends, although weekday usage spikes at 5 PM.
@@ -763,7 +763,7 @@ SELECT
    COUNT(ID) AS number_of_trips,
    SUM(CASE WHEN usertype = 'member' THEN 1 ELSE 0 END) AS total_member_trips,
    SUM(CASE WHEN usertype = 'casual' THEN 1 ELSE 0 END) AS total_casual_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`;
+FROM case_study.`2023-cyclistic-tripdata`;
 
 
 -- Busiest times per usertype.
@@ -776,7 +776,7 @@ FROM
    (SELECT
        trip_month_name,
        COUNT(*) AS total_trips
-   FROM case_study_v2.`2023-cyclistic-tripdata`
+   FROM case_study.`2023-cyclistic-tripdata`
    WHERE usertype = "member"
    GROUP BY trip_month_name
    ORDER BY total_trips DESC
@@ -786,7 +786,7 @@ JOIN
    (SELECT
        trip_weekday_name,
        COUNT(*) AS total_trips
-   FROM case_study_v2.`2023-cyclistic-tripdata`
+   FROM case_study.`2023-cyclistic-tripdata`
    WHERE usertype = "member"
    GROUP BY trip_weekday_name
    ORDER BY total_trips DESC
@@ -796,7 +796,7 @@ JOIN
    (SELECT
        trip_time_of_day,
        COUNT(*) AS total_trips
-   FROM case_study_v2.`2023-cyclistic-tripdata`
+   FROM case_study.`2023-cyclistic-tripdata`
    WHERE usertype = "member"
    GROUP BY trip_time_of_day
    ORDER BY total_trips DESC
@@ -811,7 +811,7 @@ FROM
    (SELECT
        trip_month_name,
        COUNT(*) AS total_trips
-   FROM case_study_v2.`2023-cyclistic-tripdata`
+   FROM case_study.`2023-cyclistic-tripdata`
    WHERE usertype = "casual"
    GROUP BY trip_month_name
    ORDER BY total_trips DESC
@@ -821,7 +821,7 @@ JOIN
    (SELECT
        trip_weekday_name,
        COUNT(*) AS total_trips
-   FROM case_study_v2.`2023-cyclistic-tripdata`
+   FROM case_study.`2023-cyclistic-tripdata`
    WHERE usertype = "casual"
    GROUP BY trip_weekday_name
    ORDER BY total_trips DESC
@@ -831,7 +831,7 @@ JOIN
    (SELECT
        trip_time_of_day,
        COUNT(*) AS total_trips
-   FROM case_study_v2.`2023-cyclistic-tripdata`
+   FROM case_study.`2023-cyclistic-tripdata`
    WHERE usertype = "casual"
    GROUP BY trip_time_of_day
    ORDER BY total_trips DESC
@@ -844,7 +844,7 @@ SELECT
    trip_month_name,
    trip_season,
    COUNT(ID) AS number_of_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 GROUP BY usertype, trip_month_name, trip_season;
 
 
@@ -855,7 +855,7 @@ SELECT
    trip_time_of_day,
    trip_hour,
    COUNT(ID) AS number_of_trips
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 GROUP BY usertype, trip_weekday_name, trip_time_of_day, trip_hour;
 
 
@@ -863,7 +863,7 @@ GROUP BY usertype, trip_weekday_name, trip_time_of_day, trip_hour;
 SELECT
    usertype,
    ROUND(AVG(trip_duration_min)) AS avg_trip_duration_min
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 GROUP BY usertype;
 
 
@@ -871,7 +871,7 @@ GROUP BY usertype;
 SELECT
    usertype,
    COUNT(ID) AS number_of_trips,
-   ROUND((COUNT(ID) / (SELECT COUNT(*) FROM case_study_v2.`2023-cyclistic-tripdata`)) * 100, 2) AS percentage,
+   ROUND((COUNT(ID) / (SELECT COUNT(*) FROM case_study.`2023-cyclistic-tripdata`)) * 100, 2) AS percentage,
    CASE
        WHEN trip_duration_min <= 15 THEN '00:15'
        WHEN trip_duration_min BETWEEN 15 AND 30 THEN '00:30'
@@ -880,7 +880,7 @@ SELECT
        WHEN trip_duration_hour = 2 THEN '02:00'
        ELSE '> 2:00'
    END AS trip_duration_behaviour
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 GROUP BY trip_duration_behaviour, usertype
 ORDER BY trip_duration_behaviour;
 
@@ -893,7 +893,7 @@ SELECT
    SUM(CASE WHEN usertype = 'casual' AND start_station_name = start_station_name THEN 1 ELSE 0 END) AS casual_trips,
    start_lat,
    start_lng
-FROM case_study_v2.`2023-cyclistic-tripdata`
+FROM case_study.`2023-cyclistic-tripdata`
 WHERE start_station_name <> "unknown"
 GROUP BY start_station_name, start_lat, start_lng
 ORDER BY total_trips DESC
