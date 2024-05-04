@@ -1,7 +1,7 @@
 # Google Data Analytics Capstone Project
 ## Case study: How does a bike-share navigate speedy success? 
 
-This is the capstone project I've completed for [Google Data Analytics Professional Certificate](https://www.coursera.org/professional-certificates/google-data-analytics). In this case study, I analyzed historical data from a fictional Chicago-based bike-share company using MySQL. I crafted visualizations in Tableau to illustrate my findings and concluded by offering recommendations to assist the company in addressing their business queries
+This is the capstone project I completed for the [Google Data Analytics Professional Certificate](https://www.coursera.org/professional-certificates/google-data-analytics). In this case study, I analyzed historical data from a fictional Chicago-based bike-share company using MySQL. I crafted visualizations in Tableau to illustrate my findings and concluded by offering recommendations to assist the company in addressing their business queries
 
 For a detailed summary and visual representation of my analysis, please visit the [Tableau Public dashboard](https://public.tableau.com/views/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link) I have created.
 
