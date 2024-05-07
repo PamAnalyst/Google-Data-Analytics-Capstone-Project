@@ -1,9 +1,9 @@
 # Google Data Analytics Capstone Project
 ## Case study: How does a bike-share navigate speedy success? 
 
-This is the capstone project I completed for the [Google Data Analytics Professional Certificate](https://www.coursera.org/professional-certificates/google-data-analytics). In this case study, I analyzed historical data from a fictional Chicago-based bike-share company using MySQL. I crafted visualizations in Tableau to illustrate my findings and concluded by offering recommendations to assist the company in addressing their business queries
+This is the capstone project I completed for the [Google Data Analytics Professional Certificate](https://www.coursera.org/professional-certificates/google-data-analytics). In this case study, I analyzed historical data from a fictional Chicago-based bike-share company using MySQL, crafted visualizations in Tableau to illustrate my findings and concluded by offering recommendations to assist the company in addressing their business queries.
 
-For a detailed summary and visual representation of my analysis, please visit the [Tableau Public dashboard](https://public.tableau.com/views/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link) I have created.
+For a detailed summary and visual representation of my analysis, please visit the [Tableau Public dashboard](https://public.tableau.com/app/profile/pamela.felippa/viz/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard) I have created.
 
 Below, you will find further details on the case study scenario and the full report.
 
@@ -731,12 +731,12 @@ Casual riders notably favour one station above all for starting and ending trips
 
 In contrast, members display a more balanced distribution, with at least six stations recording between 20,000 and 25,000 trips each.
 
-For a comprehensive visual representation of station distribution, refer to the interactive map available on my [Tableau dashboard](https://public.tableau.com/views/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link).
+For a comprehensive visual representation of station distribution, refer to the interactive map available on my [Tableau dashboard](https://public.tableau.com/app/profile/pamela.felippa/viz/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard).
 
 </details>
 
 ## Visualisations and Key Findings
-For a summary and overall visualisation of my full year analysis, please visit the Tableau Public dashboard I have created: [Cyclistic BIKE SHARE | How do annual members and casual riders use Cyclistic bikes differently?](https://public.tableau.com/views/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link).
+For a summary and overall visualisation of my full year analysis, please visit the Tableau Public dashboard I have created: [Cyclistic BIKE SHARE | How do annual members and casual riders use Cyclistic bikes differently?](https://public.tableau.com/app/profile/pamela.felippa/viz/CyclisticBIKESHAREHowdoannualmembersandcasualridersuseCyclisticbikesdifferently/Dashboard).
 
 Here are the **top 10 key insights** derived from my analysis:
 + Annual members account for 64% of total rides, while casual users constitute 36%.
